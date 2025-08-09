@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Arogya Sanjeevani Claim Checker</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Arogya Sanjeevani - Bajaj Insurance Claim</h1>
+
+    <label>Name:</label>
+    <input type="text" id="name" required>
+
+    <label>Age:</label>
+    <input type="number" id="age" required>
+
+    <label>Sum Insured (₹):</label>
+    <input type="number" id="sum_insured" required>
+
+    <label>Hospitalized? (yes/no):</label>
+    <input type="text" id="hospitalized" required>
+
+    <label>Days Hospitalized:</label>
+    <input type="number" id="days" required>
+
+    <label>Reason for Hospitalization:</label>
+    <input type="text" id="reason" required>
+
+    <button onclick="submitClaim()">Check Claim</button>
+
+    <div id="resultBox" class="result"></div>
+  </div>
+
+  <script>
+    async function submitClaim() {
+      const payload = {
+        name: document.getElementById('name').value,
+        age: document.getElementById('age').value,
+        sum_insured: document.getElementById('sum_insured').value,
+        hospitalized: document.getElementById('hospitalized').value,
+        days: document.getElementById('days').value,
+        reason: document.getElementById('reason').value
+      };
+
+      const response = await fetch('/check-claim', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      const result = await response.json();
+      const resultBox = document.getElementById('resultBox');
+      resultBox.innerText = result.status + " - " + result.message;
+      resultBox.className = 'result ' + (result.status.includes('Approved') ? 'success' : 'fail');
+    }
+  </script>
+</body>
+</html>
