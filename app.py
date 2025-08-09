@@ -33,4 +33,5 @@ def check_claim():
     return jsonify({'status': 'Approved ✅', 'message': 'Claim is eligible as per Arogya Sanjeevani Policy'})
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host="0.0.0.0",port=5000,debug=True)
+
